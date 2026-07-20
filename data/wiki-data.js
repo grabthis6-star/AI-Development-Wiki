@@ -12,13 +12,14 @@ export const documents = [
 ];
 
 export const projects = [
-  {name:'AI Development Wiki',status:'진행 중',progress:78,next:'Knowledge Graph 시각화',icon:'🧠'},
-  {name:'GuideFlow',status:'사례 정리',progress:84,next:'실패 사례와 패턴 연결',icon:'🧭'},
-  {name:'Next Project',status:'준비',progress:15,next:'목적과 최소 기능 정의',icon:'🚀'}
+  {id:'ai-development-wiki',name:'AI Development Wiki',description:'개발 경험, 프롬프트, 패턴과 실패 기록을 다음 프로젝트에 재사용하는 개인 개발 운영체제',status:'진행 중',progress:78,next:'Knowledge Graph 시각화',icon:'🧠',repository:'grabthis6-star/AI-Development-Wiki',documents:['start','rules','prompts','patterns','memory','timeline','template','checklist','troubleshooting'],nextTasks:['검색 UX 안정화','Knowledge Graph 시각화','즐겨찾기와 문서 Pin','모바일 사용성 점검']},
+  {id:'guideflow',name:'GuideFlow',description:'실제 제품 개발 과정에서 발생한 문제와 해결 패턴을 축적한 사례 프로젝트',status:'사례 정리',progress:84,next:'실패 사례와 패턴 연결',icon:'🧭',repository:'GuideFlow',documents:['guideflow','memory','timeline','troubleshooting','patterns'],nextTasks:['실패 사례 정리','재사용 패턴 연결','배포 이슈 체크리스트 보강']},
+  {id:'next-project',name:'Next Project',description:'AI Development OS의 템플릿과 체크리스트를 적용할 다음 프로젝트 준비 공간',status:'준비',progress:15,next:'목적과 최소 기능 정의',icon:'🚀',repository:'미정',documents:['start','template','checklist','prompts'],nextTasks:['목적 한 문장 정의','핵심 기능 1~3개 선정','저장소와 배포 방식 결정']}
 ];
 
 export const timeline = [
-  {when:'오늘',title:'데이터 중심 구조',detail:'문서 메타데이터와 앱 로직을 HTML에서 분리'},
-  {when:'최근',title:'AI Development OS 대시보드',detail:'문서 저장소를 프로젝트 운영 화면으로 확장'},
-  {when:'시작',title:'AI Development Wiki',detail:'GuideFlow 경험을 다음 프로젝트에 재사용하기 위해 생성'}
+  {when:'오늘',title:'데이터 중심 구조',detail:'문서 메타데이터와 앱 로직을 HTML에서 분리',projects:['ai-development-wiki']},
+  {when:'최근',title:'AI Development OS 대시보드',detail:'문서 저장소를 프로젝트 운영 화면으로 확장',projects:['ai-development-wiki']},
+  {when:'이전',title:'GuideFlow 사례 정리',detail:'오류 해결과 제품 판단을 재사용 가능한 지식으로 전환',projects:['guideflow','ai-development-wiki']},
+  {when:'시작',title:'AI Development Wiki',detail:'GuideFlow 경험을 다음 프로젝트에 재사용하기 위해 생성',projects:['ai-development-wiki','next-project']}
 ];
