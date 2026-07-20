@@ -47,13 +47,24 @@ function card(doc) {
   return `<button class="card" data-go="${doc.id}"><span class="icon">${doc.icon}</span><span class="tag">${doc.category}</span><h3>${doc.title}</h3><p>${doc.summary}</p><div class="tags">${doc.tags.map(tag=>`<span>#${tag}</span>`).join('')}</div></button>`;
 }
 
-function home() {
+function filteredCards() {
   const filtered = documents.filter(matches);
+  return filtered.length ? filtered.map(card).join('') : '<div class="empty">검색 결과가 없습니다.</div>';
+}
+
+function updateSearchResults() {
+  const grid = document.querySelector('#knowledge-grid');
+  if (!grid) return;
+  grid.innerHTML = filteredCards();
+  grid.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => go(el.dataset.go)));
+}
+
+function home() {
   const recentDocs = state.recent.map(byId).filter(Boolean);
-  return `<section class="topbar"><label class="search">⌕<input id="search" value="${state.query}" placeholder="제목, 태그, 본문 검색"></label><span class="pill">${documents.length} documents</span></section>
+  return `<section class="topbar"><label class="search">⌕<input id="search" value="${state.query}" placeholder="제목, 태그, 본문 검색" autocomplete="off"></label><span class="pill">${documents.length} documents</span></section>
   <section class="hero"><div><p class="eyebrow">PERSONAL DEVELOPMENT SYSTEM</p><h1>배우고, 만들고,<br>다시 사용하기</h1><p>프로젝트 경험과 프롬프트, 패턴, 실패와 해결법을 연결해 다음 개발을 더 빠르게 시작합니다.</p></div><div class="score"><strong>78%</strong><span>OS foundation</span></div></section>
   <section class="stats"><article><span>문서</span><strong>${documents.length}</strong></article><article><span>카테고리</span><strong>${categories.length-1}</strong></article><article><span>프로젝트</span><strong>${projects.length}</strong></article><article><span>최근 본 문서</span><strong>${recentDocs.length}</strong></article></section>
-  <section class="section"><div class="sectionhead"><div><p class="eyebrow">KNOWLEDGE</p><h2>지식 탐색</h2></div><div class="filters">${categories.map(cat=>`<button class="${state.category===cat?'on':''}" data-category="${cat}">${cat}</button>`).join('')}</div></div><div class="grid">${filtered.length?filtered.map(card).join(''):'<div class="empty">검색 결과가 없습니다.</div>'}</div></section>
+  <section class="section"><div class="sectionhead"><div><p class="eyebrow">KNOWLEDGE</p><h2>지식 탐색</h2></div><div class="filters">${categories.map(cat=>`<button class="${state.category===cat?'on':''}" data-category="${cat}">${cat}</button>`).join('')}</div></div><div class="grid" id="knowledge-grid">${filteredCards()}</div></section>
   ${recentDocs.length?`<section class="section"><div class="sectionhead"><div><p class="eyebrow">RECENT</p><h2>최근 본 문서</h2></div></div><div class="recent">${recentDocs.map(card).join('')}</div></section>`:''}
   <section class="section dashboard"><div class="panel"><h2>프로젝트</h2>${projects.map(p=>`<article class="project"><div><strong>${p.icon} ${p.name}</strong><span>${p.status} · 다음: ${p.next}</span></div><b>${p.progress}%</b><i><em style="width:${p.progress}%"></em></i></article>`).join('')}</div><div class="panel"><h2>최근 타임라인</h2>${timeline.map(item=>`<article class="event"><span></span><div><small>${item.when}</small><strong>${item.title}</strong><p>${item.detail}</p></div></article>`).join('')}</div></section>`;
 }
@@ -67,9 +78,15 @@ function documentView(id) {
 
 function bind() {
   document.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => go(el.dataset.go)));
-  document.querySelectorAll('[data-category]').forEach(el => el.addEventListener('click', () => {state.category=el.dataset.category;render();}));
+  document.querySelectorAll('[data-category]').forEach(el => el.addEventListener('click', () => {
+    state.category = el.dataset.category;
+    render();
+  }));
   const search = document.querySelector('#search');
-  if (search) search.addEventListener('input', event => {state.query=event.target.value;render();document.querySelector('#search')?.focus();});
+  if (search) search.addEventListener('input', event => {
+    state.query = event.target.value;
+    updateSearchResults();
+  });
 }
 
 function render() {
@@ -77,5 +94,9 @@ function render() {
   bind();
 }
 
-addEventListener('hashchange', () => {state.view=location.hash.replace('#/','') || 'home';render();});
+addEventListener('hashchange', () => {
+  state.view = location.hash.replace('#/','') || 'home';
+  render();
+});
+
 render();
