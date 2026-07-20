@@ -1,27 +1,42 @@
 import { documents, projects, timeline } from './data/wiki-data.js';
 
 const app = document.querySelector('#app');
+const routeFromHash = () => location.hash.replace('#/','') || 'home';
 const state = {
-  view: location.hash.replace('#/','') || 'home',
+  view: routeFromHash(),
   query: '',
   category: '전체',
   recent: JSON.parse(localStorage.getItem('wiki-recent') || '[]')
 };
 
 const byId = id => documents.find(doc => doc.id === id);
+const projectById = id => projects.find(project => project.id === id);
 const categories = ['전체', ...new Set(documents.map(doc => doc.category))];
 
 function remember(id) {
+  if (!byId(id)) return;
   state.recent = [id, ...state.recent.filter(item => item !== id)].slice(0, 5);
   localStorage.setItem('wiki-recent', JSON.stringify(state.recent));
 }
 
-function go(id) {
-  state.view = id;
-  location.hash = id === 'home' ? '' : `/${id}`;
-  if (id !== 'home') remember(id);
-  render();
+function navigate(route) {
+  const nextHash = route === 'home' ? '' : `/${route}`;
+  if (location.hash === `#${nextHash}` || (!location.hash && route === 'home')) {
+    state.view = route;
+    render();
+  } else {
+    location.hash = nextHash;
+  }
   scrollTo({top:0, behavior:'smooth'});
+}
+
+function go(id) {
+  remember(id);
+  navigate(id);
+}
+
+function goProject(id) {
+  navigate(`project/${id}`);
 }
 
 function matches(doc) {
@@ -30,14 +45,16 @@ function matches(doc) {
 }
 
 function sidebar() {
+  const projectActive = state.view.startsWith('project/');
   return `<aside class="side">
     <div class="brand"><div class="logo">⚡</div><div><strong>AI Development OS</strong><span>Build · Learn · Reuse</span></div></div>
     <nav>
       <button class="${state.view==='home'?'on':''}" data-go="home">⌂ 대시보드</button>
-      <button data-go="memory">🧠 AI Memory</button>
-      <button data-go="prompts">💬 Prompt Library</button>
-      <button data-go="patterns">🧩 Pattern Library</button>
-      <button data-go="timeline">🕒 Timeline</button>
+      <button class="${projectActive?'on':''}" data-project="ai-development-wiki">📁 Projects</button>
+      <button class="${state.view==='memory'?'on':''}" data-go="memory">🧠 AI Memory</button>
+      <button class="${state.view==='prompts'?'on':''}" data-go="prompts">💬 Prompt Library</button>
+      <button class="${state.view==='patterns'?'on':''}" data-go="patterns">🧩 Pattern Library</button>
+      <button class="${state.view==='timeline'?'on':''}" data-go="timeline">🕒 Timeline</button>
     </nav>
     <div class="sidefoot">GitHub가 지식 원본입니다.<br>배포 확인 전에는 완료로 판단하지 않습니다.</div>
   </aside>`;
@@ -59,6 +76,10 @@ function updateSearchResults() {
   grid.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => go(el.dataset.go)));
 }
 
+function projectCard(project) {
+  return `<button class="project project-link" data-project="${project.id}"><div><strong>${project.icon} ${project.name}</strong><span>${project.status} · 다음: ${project.next}</span></div><b>${project.progress}%</b><i><em style="width:${project.progress}%"></em></i></button>`;
+}
+
 function home() {
   const recentDocs = state.recent.map(byId).filter(Boolean);
   return `<section class="topbar"><label class="search">⌕<input id="search" value="${state.query}" placeholder="제목, 태그, 본문 검색" autocomplete="off"></label><span class="pill">${documents.length} documents</span></section>
@@ -66,18 +87,34 @@ function home() {
   <section class="stats"><article><span>문서</span><strong>${documents.length}</strong></article><article><span>카테고리</span><strong>${categories.length-1}</strong></article><article><span>프로젝트</span><strong>${projects.length}</strong></article><article><span>최근 본 문서</span><strong>${recentDocs.length}</strong></article></section>
   <section class="section"><div class="sectionhead"><div><p class="eyebrow">KNOWLEDGE</p><h2>지식 탐색</h2></div><div class="filters">${categories.map(cat=>`<button class="${state.category===cat?'on':''}" data-category="${cat}">${cat}</button>`).join('')}</div></div><div class="grid" id="knowledge-grid">${filteredCards()}</div></section>
   ${recentDocs.length?`<section class="section"><div class="sectionhead"><div><p class="eyebrow">RECENT</p><h2>최근 본 문서</h2></div></div><div class="recent">${recentDocs.map(card).join('')}</div></section>`:''}
-  <section class="section dashboard"><div class="panel"><h2>프로젝트</h2>${projects.map(p=>`<article class="project"><div><strong>${p.icon} ${p.name}</strong><span>${p.status} · 다음: ${p.next}</span></div><b>${p.progress}%</b><i><em style="width:${p.progress}%"></em></i></article>`).join('')}</div><div class="panel"><h2>최근 타임라인</h2>${timeline.map(item=>`<article class="event"><span></span><div><small>${item.when}</small><strong>${item.title}</strong><p>${item.detail}</p></div></article>`).join('')}</div></section>`;
+  <section class="section dashboard"><div class="panel"><h2>프로젝트</h2>${projects.map(projectCard).join('')}</div><div class="panel"><h2>최근 타임라인</h2>${timeline.slice(0,3).map(item=>`<article class="event"><span></span><div><small>${item.when}</small><strong>${item.title}</strong><p>${item.detail}</p></div></article>`).join('')}</div></section>`;
 }
 
 function documentView(id) {
   const doc = byId(id);
-  if (!doc) return `<div class="empty">문서를 찾을 수 없습니다.</div>`;
+  if (!doc) return `<button class="back" data-go="home">← 대시보드</button><div class="empty">문서를 찾을 수 없습니다.</div>`;
   const related = doc.related.map(byId).filter(Boolean);
-  return `<button class="back" data-go="home">← 대시보드</button><article class="dochead"><span class="docicon">${doc.icon}</span><p class="eyebrow">${doc.category} · ${doc.difficulty}</p><h1>${doc.title}</h1><p>${doc.summary}</p><div class="tags">${doc.tags.map(tag=>`<span>#${tag}</span>`).join('')}</div></article><section class="content"><h2>핵심 내용</h2><ol>${doc.content.map(item=>`<li>${item}</li>`).join('')}</ol><p class="updated">마지막 구조 업데이트: ${doc.updatedAt}</p></section><section class="section"><div class="sectionhead"><div><p class="eyebrow">KNOWLEDGE GRAPH</p><h2>연결된 문서</h2></div></div><div class="grid">${related.map(card).join('')}</div></section>`;
+  const linkedProjects = projects.filter(project => project.documents.includes(doc.id));
+  return `<button class="back" data-go="home">← 대시보드</button><article class="dochead"><span class="docicon">${doc.icon}</span><p class="eyebrow">${doc.category} · ${doc.difficulty}</p><h1>${doc.title}</h1><p>${doc.summary}</p><div class="tags">${doc.tags.map(tag=>`<span>#${tag}</span>`).join('')}</div></article><section class="content"><h2>핵심 내용</h2><ol>${doc.content.map(item=>`<li>${item}</li>`).join('')}</ol><p class="updated">마지막 구조 업데이트: ${doc.updatedAt}</p></section>${linkedProjects.length?`<section class="section"><div class="sectionhead"><div><p class="eyebrow">PROJECTS</p><h2>이 문서를 사용하는 프로젝트</h2></div></div><div class="project-grid">${linkedProjects.map(project=>`<button class="workspace-tile" data-project="${project.id}"><span>${project.icon}</span><div><strong>${project.name}</strong><small>${project.status} · ${project.progress}%</small></div></button>`).join('')}</div></section>`:''}<section class="section"><div class="sectionhead"><div><p class="eyebrow">KNOWLEDGE GRAPH</p><h2>연결된 문서</h2></div></div><div class="grid">${related.map(card).join('')}</div></section>`;
+}
+
+function projectView(id) {
+  const project = projectById(id);
+  if (!project) return `<button class="back" data-go="home">← 대시보드</button><div class="empty">프로젝트를 찾을 수 없습니다.</div>`;
+  const projectDocs = project.documents.map(byId).filter(Boolean);
+  const projectTimeline = timeline.filter(item => item.projects?.includes(project.id));
+  const categoriesInProject = new Set(projectDocs.map(doc => doc.category)).size;
+  const latestUpdate = projectDocs.map(doc => doc.updatedAt).sort().reverse()[0] || '-';
+  return `<button class="back" data-go="home">← 대시보드</button>
+    <article class="project-hero"><div><span class="project-icon">${project.icon}</span><p class="eyebrow">PROJECT WORKSPACE · ${project.status}</p><h1>${project.name}</h1><p>${project.description}</p><div class="repo-label">GitHub · ${project.repository}</div></div><div class="score"><strong>${project.progress}%</strong><span>project progress</span></div></article>
+    <section class="stats"><article><span>관련 문서</span><strong>${projectDocs.length}</strong></article><article><span>카테고리</span><strong>${categoriesInProject}</strong></article><article><span>최근 업데이트</span><strong class="date-stat">${latestUpdate}</strong></article><article><span>다음 작업</span><strong>${project.nextTasks.length}</strong></article></section>
+    <section class="workspace-layout"><div class="panel"><div class="sectionhead"><div><p class="eyebrow">NEXT</p><h2>다음 작업</h2></div></div><div class="task-list">${project.nextTasks.map((task,index)=>`<div><span>${String(index+1).padStart(2,'0')}</span><p>${task}</p></div>`).join('')}</div><div class="next-focus"><small>현재 초점</small><strong>${project.next}</strong></div></div><div class="panel"><div class="sectionhead"><div><p class="eyebrow">ACTIVITY</p><h2>프로젝트 타임라인</h2></div></div>${projectTimeline.length?projectTimeline.map(item=>`<article class="event"><span></span><div><small>${item.when}</small><strong>${item.title}</strong><p>${item.detail}</p></div></article>`).join(''):'<div class="empty">연결된 타임라인이 없습니다.</div>'}</div></section>
+    <section class="section"><div class="sectionhead"><div><p class="eyebrow">DOCUMENTS</p><h2>프로젝트 지식</h2></div><span class="pill">${projectDocs.length} documents</span></div><div class="grid">${projectDocs.map(card).join('')}</div></section>`;
 }
 
 function bind() {
   document.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => go(el.dataset.go)));
+  document.querySelectorAll('[data-project]').forEach(el => el.addEventListener('click', () => goProject(el.dataset.project)));
   document.querySelectorAll('[data-category]').forEach(el => el.addEventListener('click', () => {
     state.category = el.dataset.category;
     render();
@@ -89,13 +126,19 @@ function bind() {
   });
 }
 
+function currentView() {
+  if (state.view === 'home') return home();
+  if (state.view.startsWith('project/')) return projectView(state.view.split('/')[1]);
+  return documentView(state.view);
+}
+
 function render() {
-  app.innerHTML = `<div class="shell">${sidebar()}<main>${state.view==='home'?home():documentView(state.view)}</main></div>`;
+  app.innerHTML = `<div class="shell">${sidebar()}<main>${currentView()}</main></div>`;
   bind();
 }
 
 addEventListener('hashchange', () => {
-  state.view = location.hash.replace('#/','') || 'home';
+  state.view = routeFromHash();
   render();
 });
 
