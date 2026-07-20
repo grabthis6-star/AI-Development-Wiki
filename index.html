@@ -1,13 +1,43 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="AI와 함께 프로그램을 만드는 지식을 기록하는 개인 개발 위키" />
-    <title>AI Development Wiki</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI와 함께 프로그램을 만드는 지식을 기록하는 개인 개발 위키" />
+  <title>AI Development Wiki</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#eef2ff;background:#080b14;font-synthesis:none}*{box-sizing:border-box}body{margin:0;min-width:320px;min-height:100vh;background:radial-gradient(circle at top,#17203b 0,#0b1020 35%,#080b14 75%);color:#eef2ff}main{min-height:100vh}.hero{padding:72px 24px 44px;text-align:center;max-width:980px;margin:0 auto}.badge{display:inline-flex;padding:8px 12px;border:1px solid rgba(165,180,252,.28);border-radius:999px;background:rgba(99,102,241,.12);color:#c7d2fe;font-weight:700;font-size:14px}.hero h1{margin:22px 0 14px;font-size:clamp(40px,8vw,76px);line-height:1;letter-spacing:-.04em}.hero>p{max-width:720px;margin:0 auto;color:#aab3c7;font-size:clamp(17px,2vw,21px);line-height:1.65}.search-box{margin:34px auto 0;max-width:720px;height:62px;padding:0 20px;display:flex;align-items:center;gap:12px;border:1px solid rgba(148,163,184,.24);border-radius:18px;background:rgba(15,23,42,.82);box-shadow:0 20px 60px rgba(0,0,0,.28)}.search-box input{width:100%;border:0;outline:0;background:transparent;color:#fff;font-size:17px}.search-box input::placeholder{color:#7d879d}.content{max-width:1120px;margin:0 auto;padding:24px 24px 72px}.section-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px}.eyebrow{margin:0 0 6px;color:#818cf8;font-size:12px;font-weight:800;letter-spacing:.16em}.section-heading h2{margin:0;font-size:30px}.section-heading>span{color:#94a3b8}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{display:flex;gap:16px;min-height:170px;padding:24px;border:1px solid rgba(148,163,184,.16);border-radius:20px;background:linear-gradient(145deg,rgba(30,41,59,.8),rgba(15,23,42,.72));box-shadow:0 18px 40px rgba(0,0,0,.16);transition:.2s transform,.2s border-color}.card:hover{transform:translateY(-3px);border-color:rgba(129,140,248,.55)}.card-icon{display:grid;place-items:center;flex:0 0 50px;height:50px;border-radius:14px;background:rgba(99,102,241,.15);font-size:25px}.category{margin:1px 0 8px!important;color:#818cf8!important;font-size:13px;font-weight:800}.card h3{margin:0 0 10px;font-size:22px}.card p{margin:0;color:#9da8bd;line-height:1.65}.empty-state{padding:50px;text-align:center;border:1px dashed rgba(148,163,184,.28);border-radius:20px;color:#aab3c7}.empty-state strong{display:block;color:#fff;font-size:22px;margin-bottom:8px}footer{padding:24px;text-align:center;border-top:1px solid rgba(148,163,184,.12);color:#7f8aa0}@media(max-width:720px){.hero{padding-top:52px}.grid{grid-template-columns:1fr}.section-heading{align-items:start;flex-direction:column}.card{min-height:0}.search-box{height:58px}}
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="badge">개인 AI 개발 운영체제</div>
+      <h1>AI Development Wiki</h1>
+      <p>AI와 함께 프로그램을 만들며 배운 모든 것을 기록하고 다시 사용하는 개인 개발 위키</p>
+      <label class="search-box"><span>🔎</span><input id="search" placeholder="무엇을 찾고 싶나요? 예: GitHub, 버셀, Node" aria-label="위키 검색" /></label>
+    </header>
+    <section class="content">
+      <div class="section-heading"><div><p class="eyebrow">KNOWLEDGE BASE</p><h2 id="heading">지식 둘러보기</h2></div><span id="count"></span></div>
+      <div class="grid" id="grid"></div>
+      <div class="empty-state" id="empty" hidden><strong>아직 해당 문서가 없어.</strong><p>앞으로 새 프로젝트를 진행하면서 관련 내용을 계속 추가할 거야.</p></div>
+    </section>
+    <footer>GitHub에 기록하고 Vercel로 배포하는 살아 있는 개발 백과사전</footer>
+  </main>
+  <script>
+    const items=[
+      ['처음 시작하기','새 프로젝트를 시작할 때 GPT가 가장 먼저 읽는 안내서','🚩','시작하기','start here 프로젝트 시작 규칙'],
+      ['AI와 협업하기','기능을 하나씩 만들고 실제 사이트에서 확인하는 작업 방식','🤖','AI 협업','chatgpt 프롬프트 협업'],
+      ['VS Code','프로그램을 만들고 고치는 작업실','💻','개발환경','에디터 작업실 코드'],
+      ['Node.js','개발 도구를 움직이는 엔진','⚙️','개발환경','node 엔진 실행'],
+      ['GitHub','코드와 변경 기록을 보관하는 온라인 금고','☁️','저장과 배포','git 온라인 금고 저장소'],
+      ['Vercel','GitHub의 최신 코드를 웹사이트로 자동 배포하는 서비스','🚀','저장과 배포','버셀 배포 사이트 주소'],
+      ['문제 해결 기록','실패 원인과 해결 방법을 다음 프로젝트에서도 재사용하는 공간','🧰','문제 해결','오류 버그 해결'],
+      ['GuideFlow 사례','GuideFlow를 만들며 배운 실제 개발 경험','🎬','실전 사례','guideflow 사례 스토리보드']
+    ];
+    const grid=document.querySelector('#grid'),search=document.querySelector('#search'),count=document.querySelector('#count'),heading=document.querySelector('#heading'),empty=document.querySelector('#empty');
+    function render(){const q=search.value.trim().toLowerCase();const filtered=items.filter(i=>i.join(' ').toLowerCase().includes(q));grid.innerHTML=filtered.map(i=>`<article class="card"><div class="card-icon">${i[2]}</div><div><p class="category">${i[3]}</p><h3>${i[0]}</h3><p>${i[1]}</p></div></article>`).join('');count.textContent=`${filtered.length}개 문서`;heading.textContent=q?`“${search.value.trim()}” 검색 결과`:'지식 둘러보기';empty.hidden=filtered.length!==0;}
+    search.addEventListener('input',render);render();
+  </script>
+</body>
 </html>
