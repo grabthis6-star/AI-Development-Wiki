@@ -5,6 +5,16 @@ const section = (title, body) => `\n## ${title}\n\n${body}\n`
 
 let techMarkdown = `# GuideFlow 기술 색인\n\n${project.purpose}\n\n이 문서는 웹사이트의 단일 지식 데이터에서 자동 생성됩니다. 기술 이름만 나열하지 않고 GuideFlow에서 왜 사용했는지와 재사용 방법까지 함께 설명합니다.\n`
 
+const starterToolIds = ['chatgpt-projects', 'codex', 'agents-md', 'claude-projects', 'gems', 'notebooklm', 'ai-studio']
+const starterTools = starterToolIds.map((id) => aiTools.find((tool) => tool.id === id)).filter(Boolean)
+techMarkdown += section('AI 작업 환경 선택하기', `모든 도구를 설치할 필요는 없습니다. 대화·기획용 AI 하나와 실제 파일을 수정할 개발 도구 하나부터 선택하세요. 전체 비교는 AI_TOOL_MAP.md에서 확인할 수 있습니다.\n\n${starterTools.map((tool) => [
+  `### ${tool.icon} ${tool.title}`,
+  `- 종류: ${tool.provider} · ${tool.kind}`,
+  `- 언제 사용: ${tool.useWhen}`,
+  `- 사용자가 준비할 것: ${tool.needs}`,
+  `- 공식 안내: ${tool.url}`,
+].join('\n')).join('\n\n')}`)
+
 for (const group of techGroups) {
   const cards = techTopics.filter((topic) => topic.group === group.id)
   techMarkdown += section(group.title, `${group.description}\n\n${cards.map((topic) => [
@@ -53,3 +63,4 @@ toolMarkdown += section('추천 조합', toolRecipes.map((recipe) => `### ${reci
 await writeFile('AI_TOOL_MAP.md', toolMarkdown, 'utf8')
 
 console.log('Generated TECH_INDEX.md, AI_RULES.md and AI_TOOL_MAP.md from knowledge-data.js')
+
