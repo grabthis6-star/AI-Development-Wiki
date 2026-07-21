@@ -1,5 +1,5 @@
 import { writeFile } from 'node:fs/promises'
-import { project, techGroups, techTopics, aiTopics, aiTemplates, conceptTopics, automationLevels, workflowRecipes, practicalGuides, aiTools, toolRecipes } from './knowledge-data.js'
+import { project, techGroups, techTopics, aiTopics, aiTemplates, conceptTopics, automationLevels, workflowRecipes, practicalGuides, fieldTips, aiTools, toolRecipes } from './knowledge-data.js'
 
 const section = (title, body) => `\n## ${title}\n\n${body}\n`
 
@@ -73,6 +73,12 @@ practicalMarkdown += section('실전 운영 가이드', practicalGuides.map((gui
   `- AI가 할 일: ${guide.aiSteps.join(' → ')}`,
   `- 확인 항목: ${guide.check.join(' / ')}`,
   `- 복사 요청문:\n\n> ${guide.prompt}`,
+].join('\n')).join('\n\n'))
+practicalMarkdown += section('현장에서 바로 쓰는 팁', fieldTips.map((tip) => [
+  `### ${tip.icon} ${tip.title}`,
+  `- 핵심: ${tip.tip}`,
+  `- 실행: ${tip.action}`,
+  `- 주의: ${tip.caution}`,
 ].join('\n')).join('\n\n'))
 practicalMarkdown += section('커뮤니티 정보 사용 원칙', '- 개인의 성능·토큰·비용 경험을 보편적인 사실로 단정하지 않습니다.\n- CAPTCHA·내부 API·심사·안전장치 우회 방법은 안내하지 않습니다.\n- 저작권 있는 자료의 무단 다운로드와 재사용을 자동화하지 않습니다.\n- 서비스 가격·지원 기능·요구 사양은 공식 문서에서 마지막으로 확인합니다.')
 await writeFile('PRACTICAL_GUIDE.md', practicalMarkdown, 'utf8')
