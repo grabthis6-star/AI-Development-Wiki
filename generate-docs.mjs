@@ -1,5 +1,5 @@
 import { writeFile } from 'node:fs/promises'
-import { project, techGroups, techTopics, aiTopics, aiTemplates, conceptTopics, automationLevels, workflowRecipes, aiTools, toolRecipes } from './knowledge-data.js'
+import { project, techGroups, techTopics, aiTopics, aiTemplates, conceptTopics, automationLevels, workflowRecipes, practicalGuides, aiTools, toolRecipes } from './knowledge-data.js'
 
 const section = (title, body) => `\n## ${title}\n\n${body}\n`
 
@@ -64,6 +64,19 @@ automationMarkdown += section('자동화 다섯 단계', automationLevels.map((i
 automationMarkdown += section('실전 작업 흐름', workflowRecipes.map((recipe) => `### ${recipe.icon} ${recipe.title}\n\n${recipe.steps.join(' → ')}\n\n- 도구: ${recipe.tools.join(' + ')}\n- 원칙: ${recipe.principle}`).join('\n\n'))
 await writeFile('AUTOMATION_GUIDE.md', automationMarkdown, 'utf8')
 
+let practicalMarkdown = `# AI와 프로그램 만드는 실전 운영 가이드\n\n커뮤니티 대화에서 반복된 실제 어려움을 바탕으로, 사용자가 준비하고 AI에게 맡기고 직접 확인해야 할 일을 정리했습니다. 제품 성능·가격·출시 소문은 사실로 사용하지 않으며 최신 조건은 공식 문서에서 다시 확인합니다.\n`
+practicalMarkdown += section('실전 운영 가이드', practicalGuides.map((guide) => [
+  `### ${guide.icon} ${guide.title}`,
+  guide.summary,
+  `- 필요한 이유: ${guide.why}`,
+  `- 사용자가 할 일: ${guide.userSteps.join(' → ')}`,
+  `- AI가 할 일: ${guide.aiSteps.join(' → ')}`,
+  `- 확인 항목: ${guide.check.join(' / ')}`,
+  `- 복사 요청문:\n\n> ${guide.prompt}`,
+].join('\n')).join('\n\n'))
+practicalMarkdown += section('커뮤니티 정보 사용 원칙', '- 개인의 성능·토큰·비용 경험을 보편적인 사실로 단정하지 않습니다.\n- CAPTCHA·내부 API·심사·안전장치 우회 방법은 안내하지 않습니다.\n- 저작권 있는 자료의 무단 다운로드와 재사용을 자동화하지 않습니다.\n- 서비스 가격·지원 기능·요구 사양은 공식 문서에서 마지막으로 확인합니다.')
+await writeFile('PRACTICAL_GUIDE.md', practicalMarkdown, 'utf8')
+
 let toolMarkdown = `# AI와 도구 지도\n\n목적에 맞는 AI 서비스, 내부 기능과 개발 도구를 발견하고 조합하기 위한 카탈로그입니다. 기능과 요금제는 바뀔 수 있으므로 각 공식 링크에서 최신 정보를 확인하세요.\n`
 for (const provider of [...new Set(aiTools.map((tool) => tool.provider))]) {
   const tools = aiTools.filter((tool) => tool.provider === provider)
@@ -81,5 +94,5 @@ for (const provider of [...new Set(aiTools.map((tool) => tool.provider))]) {
 toolMarkdown += section('추천 조합', toolRecipes.map((recipe) => `### ${recipe.title}\n\n${recipe.tools.join(' + ')}\n\n${recipe.description}`).join('\n\n'))
 await writeFile('AI_TOOL_MAP.md', toolMarkdown, 'utf8')
 
-console.log('Generated TECH_INDEX.md, AI_RULES.md, CONCEPT_GUIDE.md, AUTOMATION_GUIDE.md and AI_TOOL_MAP.md from knowledge-data.js')
+console.log('Generated TECH_INDEX.md, AI_RULES.md, CONCEPT_GUIDE.md, AUTOMATION_GUIDE.md, PRACTICAL_GUIDE.md and AI_TOOL_MAP.md from knowledge-data.js')
 
