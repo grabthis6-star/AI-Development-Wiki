@@ -1,5 +1,5 @@
 import { writeFile } from 'node:fs/promises'
-import { project, techGroups, techTopics, aiTopics, aiTemplates } from './knowledge-data.js'
+import { project, techGroups, techTopics, aiTopics, aiTemplates, aiTools, toolRecipes } from './knowledge-data.js'
 
 const section = (title, body) => `\n## ${title}\n\n${body}\n`
 
@@ -35,4 +35,21 @@ aiMarkdown += section('상황별 요청 양식', aiTemplates.map((template) => [
 await writeFile('TECH_INDEX.md', techMarkdown, 'utf8')
 await writeFile('AI_RULES.md', aiMarkdown, 'utf8')
 
-console.log('Generated TECH_INDEX.md and AI_RULES.md from knowledge-data.js')
+let toolMarkdown = `# AI와 도구 지도\n\n목적에 맞는 AI 서비스, 내부 기능과 개발 도구를 발견하고 조합하기 위한 카탈로그입니다. 기능과 요금제는 바뀔 수 있으므로 각 공식 링크에서 최신 정보를 확인하세요.\n`
+for (const provider of [...new Set(aiTools.map((tool) => tool.provider))]) {
+  const tools = aiTools.filter((tool) => tool.provider === provider)
+  toolMarkdown += section(provider, tools.map((tool) => [
+    `### ${tool.icon} ${tool.title}`,
+    `- 종류: ${tool.kind}`,
+    `- 한 줄 설명: ${tool.summary}`,
+    `- 추천 상황: ${tool.useWhen}`,
+    `- 필요 없는 상황: ${tool.avoidWhen}`,
+    `- 사용자가 준비할 것: ${tool.needs}`,
+    `- 공식 안내: ${tool.url}`,
+    `- 요청문:\n\n> ${tool.prompt}`,
+  ].join('\n')).join('\n\n'))
+}
+toolMarkdown += section('추천 조합', toolRecipes.map((recipe) => `### ${recipe.title}\n\n${recipe.tools.join(' + ')}\n\n${recipe.description}`).join('\n\n'))
+await writeFile('AI_TOOL_MAP.md', toolMarkdown, 'utf8')
+
+console.log('Generated TECH_INDEX.md, AI_RULES.md and AI_TOOL_MAP.md from knowledge-data.js')
