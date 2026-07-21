@@ -2,7 +2,7 @@ export const project = {
   version: '2.0',
   updatedAt: '2026-07-22',
   purpose: '개발 경험이 없는 사람도 AI와 협업해 프로그램을 만들 수 있도록, 사용자가 준비하고 전달하고 확인해야 할 일을 안내하는 실전 가이드',
-  handoff: `GUIDEFLOW_CONTEXT.md, TECH_INDEX.md, AI_RULES.md를 먼저 읽어.
+  handoff: `GUIDEFLOW_CONTEXT.md를 먼저 읽어.
 나는 비개발자이므로 기술 구현은 네가 맡고, 내가 해야 할 일만 쉬운 말로 안내해.
 설치가 필요하면 왜 필요한지, 공식 설치 위치, 확인 방법을 함께 알려줘.
 오류가 생기면 내가 복사할 내용과 캡처할 화면을 정확히 지정해줘.
@@ -75,7 +75,7 @@ AI에게 줄 정보
 export const aiTopics = [
   {icon:'💡',title:'아이디어를 사용자 흐름으로 말하기',summary:'기술명이 아니라 사용자가 하는 행동을 설명합니다.',problem:'“React로 타임라인을 만들어줘”처럼 기술부터 정하면 실제 목적과 다른 결과가 생깁니다.',rule:'누가, 언제, 무엇을 누르고, 어떤 결과를 얻는지 먼저 말합니다.',prompt:'나는 [사용자]가 [상황]에서 [행동]하면 [결과]를 얻는 프로그램을 원해. 필요한 기술은 네가 판단하되 먼저 가장 작은 결과물을 만들어.'},
   {icon:'🎯',title:'첫 버전의 완료 기준 정하기',summary:'기능 수보다 직접 확인할 한 가지 결과를 정합니다.',problem:'완성의 뜻이 다르면 AI는 기능을 계속 늘리고 사용자는 결과를 보지 못합니다.',rule:'“화면에서 무엇이 되면 끝인가”를 한 문장으로 정합니다.',prompt:'이번 완료 기준은 [실제 화면에서 확인할 결과]야. 그 밖의 기능은 추가하지 마.'},
-  {icon:'📦',title:'AI에게 현재 프로젝트 넘기기',summary:'폴더·컨텍스트·이번 작업·유지 기능을 전달합니다.',problem:'새 AI는 이전 대화와 시행착오를 자동으로 알지 못합니다.',rule:'긴 채팅 대신 핵심 문서 세 개와 이번 작업을 전달합니다.',prompt:'GUIDEFLOW_CONTEXT.md, TECH_INDEX.md, AI_RULES.md를 먼저 읽고 현재 폴더를 확인한 뒤 이번 작업만 수행해.'},
+  {icon:'📦',title:'AI에게 현재 프로젝트 넘기기',summary:'폴더·컨텍스트·이번 작업·유지 기능을 전달합니다.',problem:'새 AI는 이전 대화와 시행착오를 자동으로 알지 못합니다.',rule:'긴 채팅 대신 GUIDEFLOW_CONTEXT.md 한 개와 이번 작업을 전달합니다. TECH_INDEX.md와 AI_RULES.md는 이 사이트에서 사용자가 참고하는 문서이므로 새 프로젝트에 없다고 가정합니다.',prompt:'GUIDEFLOW_CONTEXT.md를 먼저 읽고 현재 폴더를 확인한 뒤 이번 작업만 수행해.'},
   {icon:'🧰',title:'AI가 할 일과 사용자가 할 일 나누기',summary:'코드 작업은 AI가, 선택과 체감 평가는 사용자가 맡습니다.',problem:'AI가 코드 복사·파일 수정·불필요한 설치를 사용자에게 넘기면 초보자는 지칩니다.',rule:'AI가 접근 가능한 파일 수정·검사·커밋·배포 확인은 AI가 직접 합니다.',prompt:'네가 직접 할 수 있는 코드 수정과 검증은 직접 해. 내가 꼭 해야 하는 선택이나 로그인만 쉬운 단계로 요청해.'},
   {icon:'🪜',title:'한 번에 기능 하나만 맡기기',summary:'작은 결과를 보고 다음 기능을 결정합니다.',problem:'큰 요청은 기존 기능을 깨고 잘못된 방향을 늦게 발견하게 합니다.',rule:'기능 하나 → 실제 확인 → 피드백 → 다음 기능 순서를 지킵니다.',prompt:'이번에는 [기능 하나]만 구현해. 완료 후 내가 확인할 위치와 방법을 알려줘.'},
   {icon:'📸',title:'문제는 증거와 함께 전달하기',summary:'스크린샷, 재현 순서, 실제 결과, 기대 결과를 제공합니다.',problem:'짧은 증상 설명만으로는 AI가 원인을 추측합니다.',rule:'오류 메시지는 생략하지 않고 전체를 복사하고 현재 화면을 첨부합니다.',prompt:'첨부 화면과 오류 전문을 기준으로 원인을 확인해. 같은 방법을 반복하지 말고 수정 후 재현 순서대로 검증해.'},
@@ -101,7 +101,7 @@ export const aiTemplates = [
   {title:'디자인 피드백 전달하기',description:'예쁘게가 아니라 달라져야 할 점을 말합니다.',prompt:`첨부 화면에서 [위치]가 [현재 문제]야.
 나는 [원하는 느낌/행동]을 원해.
 [유지할 요소]는 그대로 두고 이 부분만 수정한 뒤 PC와 모바일을 확인해.`},
-  {title:'새 AI에게 프로젝트 넘기기',description:'새 채팅에서도 같은 원칙을 유지합니다.',prompt:`먼저 GUIDEFLOW_CONTEXT.md, TECH_INDEX.md, AI_RULES.md를 읽어.
+  {title:'새 AI에게 프로젝트 넘기기',description:'새 채팅에서도 같은 원칙을 유지합니다.',prompt:`먼저 GUIDEFLOW_CONTEXT.md를 읽어.
 현재 프로젝트 폴더와 최근 변경을 확인해.
 이번 작업은 [기능 하나]이고 [기존 기능]은 반드시 유지해.
 완료 기준은 [화면에서 확인할 결과]야.`}
@@ -142,3 +142,4 @@ export const toolRecipes = [
   {title:'Google 업무 자동화',tools:['Gemini 또는 AI Studio','Gmail·Drive·Sheets 연결'],description:'Google 계정의 업무 데이터를 사용하는 도구를 설계합니다.'},
   {title:'반복 개발 자동화',tools:['AGENTS.md','Skills','MCP·Plugins','Automations'],description:'검증된 규칙과 반복 절차를 다음 작업에서도 자동으로 재사용합니다.'}
 ]
+
