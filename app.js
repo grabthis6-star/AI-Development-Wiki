@@ -84,10 +84,15 @@ function learningPath() {
   }).join('');
 }
 
+
+function startHere() {
+  return `<section class="start-here"><div><p class="eyebrow">START HERE · AI HANDOFF</p><h2>새 AI에게 GuideFlow의 모든 맥락을 한 번에 전달하세요.</h2><p>프로젝트 목적, 사용 기술, 시행착오, AI 협업 방식과 검증 원칙을 압축한 문서입니다. 새 ChatGPT·Codex·Claude 작업을 시작할 때 가장 먼저 읽히세요.</p></div><div class="start-actions"><a class="start-link primary" href="./GUIDEFLOW_CONTEXT.md" target="_blank" rel="noopener">컨텍스트 문서 열기 →</a><a class="start-link" href="./TECH_INDEX.md" target="_blank" rel="noopener">기술 색인</a><a class="start-link" href="./AI_RULES.md" target="_blank" rel="noopener">AI 규칙</a></div></section>`;
+}
+
 function home() {
   const recentDocs = state.recent.map(byId).filter(Boolean);
   const continueId = recentDocs[0]?.id || 'start';
-  return `<section class="topbar"><label class="search">⌕<input id="search" value="${state.query}" placeholder="궁금한 용어, 태그, 내용을 검색하세요" autocomplete="off"></label><span class="pill">${documents.length} documents</span></section>
+  return `${startHere()}<section class="topbar"><label class="search">⌕<input id="search" value="${state.query}" placeholder="궁금한 용어, 태그, 내용을 검색하세요" autocomplete="off"></label><span class="pill">${documents.length} documents</span></section>
   <section class="welcome"><div><p class="eyebrow">GUIDE + WIKI + PROJECT</p><h1>무엇부터 해야 할지 몰라도<br>괜찮습니다.</h1><p>처음이라면 안내를 따라 배우고, 궁금한 것이 있다면 위키에서 찾고, 준비되면 프로젝트에 바로 적용하세요.</p></div><div class="welcome-badge"><span>오늘의 시작점</span><strong>${byId(continueId)?.title || '처음 시작하기'}</strong><button data-go="${continueId}">이어서 보기 →</button></div></section>
   <section class="section"><div class="sectionhead"><div><p class="eyebrow">CHOOSE YOUR WAY</p><h2>오늘 무엇을 하고 싶나요?</h2></div></div><div class="guide-grid">
     ${guideAction('🎓','처음부터 배우기','개발 지식이 없어도 순서대로 따라가는 입문 경로입니다.','가이드 시작','data-go="start"')}
