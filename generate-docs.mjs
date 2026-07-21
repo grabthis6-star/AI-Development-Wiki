@@ -3,11 +3,10 @@ import { project, techGroups, techTopics, aiTopics, aiTemplates } from './knowle
 
 const section = (title, body) => `\n## ${title}\n\n${body}\n`
 
-const techById = new Map(techTopics.map((topic) => [topic.id, topic]))
 let techMarkdown = `# GuideFlow 기술 색인\n\n${project.purpose}\n\n이 문서는 웹사이트의 단일 지식 데이터에서 자동 생성됩니다. 기술 이름만 나열하지 않고 GuideFlow에서 왜 사용했는지와 재사용 방법까지 함께 설명합니다.\n`
 
 for (const group of techGroups) {
-  const cards = group.topicIds.map((id) => techById.get(id)).filter(Boolean)
+  const cards = techTopics.filter((topic) => topic.group === group.id)
   techMarkdown += section(group.title, `${group.description}\n\n${cards.map((topic) => [
     `### ${topic.icon} ${topic.title}`,
     `- 한 줄 설명: ${topic.summary}`,
