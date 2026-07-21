@@ -107,11 +107,44 @@ export const aiTemplates = [
 완료 기준은 [화면에서 확인할 결과]야.`}
 ]
 
+export const conceptTopics = [
+  {id:'gui-app',icon:'🪟',title:'GUI와 앱',summary:'버튼과 메뉴가 보이는 일반적인 사용 화면',easy:'카카오톡처럼 화면을 보며 클릭하는 방식입니다.',why:'초보자가 가장 쉽게 시작할 수 있지만, 큰 작업에서는 메모리 사용과 반복 클릭이 늘 수 있습니다.',userRole:'앱을 열고 프로젝트를 선택하고 결과를 눈으로 확인합니다.',aiRole:'화면 안에서 대화하고 허용된 파일과 도구를 사용합니다.',when:'처음 시작하거나 결과를 시각적으로 확인하며 작업할 때',avoid:'반복 작업을 빠르게 실행하거나 세밀한 명령 자동화가 핵심일 때',prompt:'나는 초보자야. CLI가 꼭 필요하지 않다면 앱 화면에서 할 수 있는 방법부터 안내해.'},
+  {id:'terminal',icon:'⬛',title:'터미널',summary:'컴퓨터에 짧은 명령을 전달하고 결과를 확인하는 텍스트 작업 창',easy:'버튼 대신 한 줄 명령으로 컴퓨터에 일을 시키는 입력창입니다.',why:'설치 확인, 개발 화면 실행, CLI 도구 사용에 필요합니다.',userRole:'AI가 지정한 한 줄을 실행하고 결과 전체를 전달합니다.',aiRole:'필요한 명령을 만들고 가능하면 직접 실행·검증합니다.',when:'Node.js·Git 설치 확인이나 CLI 실행이 필요할 때',avoid:'단순 아이디어 대화나 화면 피드백만 할 때',prompt:'터미널에서 내가 실행해야 하는 명령은 한 번에 하나만 주고, 예상되는 정상 결과도 함께 알려줘.'},
+  {id:'cli',icon:'⌨️',title:'CLI',summary:'앱 대신 터미널에서 대화하고 작업하는 프로그램',easy:'검은 화면에서 코드를 짜는 것이 아니라, AI와 텍스트로 대화하는 또 하나의 창입니다.',why:'프로젝트 파일과 컴퓨터 도구를 직접 다루기 좋고 반복 작업을 빠르게 실행할 수 있습니다.',userRole:'프로젝트 폴더에서 CLI를 시작하고 권한 요청을 판단합니다.',aiRole:'파일 수정, 명령 실행, 테스트와 결과 보고를 맡습니다.',when:'큰 프로젝트, 반복 실행, 앱이 느리거나 자원 사용이 클 때',avoid:'터미널이 큰 부담이고 작은 시제품만 확인할 때',prompt:'앱과 CLI 중 이번 작업에 더 쉬운 방법을 비교하고, CLI가 필요하면 설치부터 첫 실행까지만 안내해.'},
+  {id:'api',icon:'🔗',title:'API',summary:'프로그램이 다른 AI나 서비스에 정해진 형식으로 요청하는 통로',easy:'사람이 웹사이트 버튼을 누르는 대신 프로그램끼리 주문서를 주고받는 창구입니다.',why:'이미지·음성 생성, 데이터 조회와 대량 반복 작업을 자동화할 수 있습니다.',userRole:'계정·결제 범위·API 키와 사용 한도를 관리합니다.',aiRole:'요청 코드, 오류 처리, 비용 제한과 키 보호를 구현합니다.',when:'프로그램 안에서 AI 기능을 반복 호출해야 할 때',avoid:'사람이 웹 화면에서 몇 번 실행하는 것으로 충분할 때',prompt:'[기능]에 API가 꼭 필요한지 판단해. 예상 호출 횟수, 비용 위험, 키 보관 방법부터 설명해.'},
+  {id:'plugin',icon:'🧩',title:'플러그인',summary:'기존 AI나 프로그램에 여러 기능을 한 묶음으로 추가하는 확장 부품',easy:'기본 공구함에 특정 작업용 공구 세트를 통째로 추가하는 것입니다.',why:'스킬·도구·연결 설정을 함께 설치해 새로운 작업 능력을 제공할 수 있습니다.',userRole:'출처와 권한을 확인하고 필요한 플러그인만 설치합니다.',aiRole:'플러그인이 제공하는 기능과 적용 범위를 확인해 사용합니다.',when:'검증된 기능 묶음을 여러 작업에서 계속 사용할 때',avoid:'한 번뿐인 작업이나 출처를 신뢰할 수 없을 때',prompt:'이 플러그인이 추가하는 기능, 요구 권한, 외부 전송 데이터와 제거 방법을 먼저 확인해.'},
+  {id:'mcp',icon:'🔌',title:'MCP',summary:'AI가 외부 데이터와 작업 도구를 공통 방식으로 연결하는 규격',easy:'각기 다른 기계를 같은 모양의 콘센트로 연결하는 표준입니다.',why:'GitHub·Drive·데이터베이스 같은 외부 시스템을 AI가 직접 읽거나 조작할 수 있습니다.',userRole:'연결할 서비스와 최소 권한을 승인합니다.',aiRole:'연결된 도구를 사용해 최신 정보를 읽고 허용된 작업을 수행합니다.',when:'프로젝트 밖의 서비스와 실시간으로 연결해야 할 때',avoid:'파일 첨부 하나로 충분하거나 외부 권한이 필요 없을 때',prompt:'[서비스] MCP를 연결하기 전에 읽기·쓰기 권한, 전송 데이터, 사용하지 않을 때 끄는 방법을 설명해.'},
+  {id:'skill',icon:'📘',title:'스킬',summary:'반복 작업의 순서·참고자료·검증법을 저장한 AI 작업 설명서',easy:'새 직원도 같은 품질로 일하도록 만든 표준 작업 매뉴얼입니다.',why:'문서 제작·배포·검증처럼 같은 일을 매번 다시 설명하지 않아도 됩니다.',userRole:'원하는 결과와 반복해서 지킬 기준을 정합니다.',aiRole:'저장된 절차를 읽고 같은 순서로 작업·검증합니다.',when:'같은 작업이 세 번 이상 반복되고 절차가 안정됐을 때',avoid:'아직 방법이 계속 바뀌거나 한 번만 할 때',prompt:'이 작업을 먼저 한 번 검증하고, 반복 가치가 확인되면 재사용 가능한 스킬로 정리해.'},
+  {id:'agent',icon:'🤖',title:'에이전트',summary:'목표를 받고 필요한 파일과 도구를 선택해 여러 단계를 수행하는 AI 작업자',easy:'질문에 한 번 답하는 사람이 아니라 결과가 나올 때까지 작업하는 담당자입니다.',why:'조사→수정→실행→검증 같은 연결된 일을 맡길 수 있습니다.',userRole:'목표, 범위, 유지 기능과 완료 기준을 전달합니다.',aiRole:'필요한 순서를 정하고 도구를 사용하며 결과를 검증합니다.',when:'여러 단계가 있지만 목표가 명확한 작업',avoid:'정답 한 줄이나 단순 설명만 필요할 때',prompt:'목표는 [결과]야. 수정 범위와 완료 기준을 먼저 확인하고 필요한 단계만 수행해.'},
+  {id:'subagent',icon:'👥',title:'하위 에이전트',summary:'조사·디자인·코딩·검증처럼 독립 작업을 나누어 맡는 보조 AI',easy:'한 담당자가 모든 일을 순서대로 하지 않고 팀원에게 분담하는 방식입니다.',why:'서로 독립적인 작업을 동시에 진행하거나 별도의 검토 관점을 얻을 수 있습니다.',userRole:'분리 가능한 작업인지와 최종 책임자를 정합니다.',aiRole:'각 결과를 모아 충돌을 해결하고 하나의 결과로 통합합니다.',when:'큰 자료 조사, 여러 독립 모듈, 별도 검토가 필요할 때',avoid:'작은 작업이나 같은 파일을 동시에 수정해야 할 때',prompt:'독립적으로 나눌 수 있는 작업만 하위 에이전트에 맡기고, 최종 결과는 하나로 검증해.'},
+  {id:'harness',icon:'🧰',title:'하네스',summary:'AI 모델을 실제로 일하게 만드는 도구·규칙·메모리·실행 환경의 조합',easy:'두뇌가 모델이라면 하네스는 손·공구·작업 규칙이 갖춰진 작업실입니다.',why:'같은 모델도 어떤 앱·CLI·도구 연결을 쓰느냐에 따라 결과와 사용감이 달라집니다.',userRole:'모델 이름만 보지 않고 필요한 도구와 검증 기능을 비교합니다.',aiRole:'주어진 환경의 파일·도구·규칙을 활용해 일을 수행합니다.',when:'Codex와 Claude Code처럼 비슷해 보이는 작업 도구를 비교할 때',avoid:'단순 대화 모델의 답변만 비교할 때',prompt:'모델 성능만 비교하지 말고 이번 작업에 필요한 파일 접근, 도구 실행, 검증 기능까지 비교해.'},
+  {id:'oauth',icon:'🔐',title:'OAuth와 권한',summary:'비밀번호를 직접 넘기지 않고 특정 서비스 접근을 허용하는 로그인 방식',easy:'집 열쇠 전체가 아니라 필요한 방만 열 수 있는 임시 출입증을 주는 것입니다.',why:'AI와 외부 서비스를 연결할 때 계정 비밀번호 노출을 줄이고 권한을 제한할 수 있습니다.',userRole:'요청 권한과 대상 계정을 확인하고 불필요하면 취소합니다.',aiRole:'승인된 범위 안에서만 정보를 읽거나 작업합니다.',when:'GitHub·Google·Slack 같은 계정을 AI 도구와 연결할 때',avoid:'공개 정보 조회나 파일 첨부만으로 충분할 때',prompt:'로그인 전에 요청되는 권한을 읽기·쓰기별로 설명하고 최소 권한만 요청해.'},
+  {id:'local-cloud',icon:'☁️',title:'로컬과 클라우드',summary:'내 컴퓨터에서 실행할지 외부 서버에서 실행할지의 차이',easy:'내 주방에서 직접 만들기와 외부 전문 주방에 주문하기의 차이입니다.',why:'비용, 속도, 개인정보, 설치 난이도와 컴퓨터 성능이 달라집니다.',userRole:'보낼 수 있는 데이터와 설치·비용 범위를 결정합니다.',aiRole:'요구에 맞는 방식을 비교하고 필요한 환경을 구성합니다.',when:'이미지·음성·AI 모델처럼 컴퓨터 자원과 비용 차이가 큰 기능',avoid:'일반 웹 화면처럼 실행 위치가 결과에 큰 영향을 주지 않을 때',prompt:'[기능]을 로컬과 클라우드로 만들 때 설치 난이도, 비용, 속도, 개인정보를 비교해.'},
+  {id:'session-context',icon:'🧠',title:'세션과 컨텍스트',summary:'AI가 현재 작업에서 읽고 기억하는 대화·파일·규칙의 범위',easy:'회의 테이블 위에 펼쳐둔 자료의 양입니다. 너무 많으면 필요한 내용을 찾기 어려워집니다.',why:'긴 대화와 많은 도구가 누적되면 느려지고 오래된 지시가 현재 작업과 충돌할 수 있습니다.',userRole:'핵심 컨텍스트 문서를 유지하고 작업 단위로 새 세션을 시작합니다.',aiRole:'현재 필요한 파일만 읽고 오래된 가정은 다시 확인합니다.',when:'프로젝트가 길어지거나 AI가 느려지고 방향을 혼동할 때',avoid:'짧은 일회성 질문',prompt:'현재 작업에 필요한 컨텍스트만 남기고, 오래되거나 충돌하는 지시는 먼저 알려줘.'}
+]
+
+export const automationLevels = [
+  {level:1,title:'AI가 초안 만들기',summary:'사람이 요청하고 AI가 한 번의 결과를 만듭니다.',user:'목표와 자료 제공, 결과 선택',ai:'기획·문서·코드 초안',example:'GuideFlow 화면 시안 만들기',risk:'결과를 그대로 사용하지 말고 방향부터 확인'},
+  {level:2,title:'버튼 한 번으로 여러 단계 실행',summary:'정해진 작업 묶음을 사용자가 필요할 때 시작합니다.',user:'실행 버튼과 입력 자료 선택',ai:'여러 단계를 순서대로 실행',example:'이미지 여러 장 정리하고 미리보기 생성',risk:'각 단계의 실패 위치와 재실행 방법 필요'},
+  {level:3,title:'API로 반복 작업 연결',summary:'프로그램이 AI·음성·이미지 서비스를 자동 호출합니다.',user:'비용 한도와 결과 기준 관리',ai:'호출 코드·오류 처리·기록',example:'대본마다 이미지와 TTS 초안 생성',risk:'API 키 보호와 호출 비용 제한 필요'},
+  {level:4,title:'예약·조건 자동 실행',summary:'시간이나 사건을 기준으로 사람이 누르지 않아도 실행합니다.',user:'실행 조건과 중지 방법 결정',ai:'스케줄·모니터링·알림 구성',example:'매일 자료 수집 후 초안 보고서 생성',risk:'잘못된 반복 실행과 누적 비용 감시 필요'},
+  {level:5,title:'사람이 최종 검수',summary:'자동 결과를 사람이 선택·수정·승인한 뒤 사용합니다.',user:'품질·저작권·사실·사용감 최종 판단',ai:'검수 자료와 수정 후보 제공',example:'초벌 영상을 편집 프로그램에서 마무리',risk:'완전 자동화를 목표로 검수 단계를 없애지 않기'}
+]
+
+export const workflowRecipes = [
+  {icon:'🎞️',title:'GuideFlow 아이디어 스케치',steps:['아이디어','캡처 붙여넣기','순서·시간 조정','재생 확인','사람이 본편집'],tools:['ChatGPT','Codex','브라우저'],principle:'5분 안에 초벌 가이드를 만들고 완성 편집은 기존 편집기에서 합니다.'},
+  {icon:'🌐',title:'웹 프로그램 만들기',steps:['사용 흐름 정리','작은 화면 구현','Git 기록','공개 배포','브라우저 검증'],tools:['ChatGPT 또는 Claude','Codex 또는 Claude Code','GitHub','Vercel'],principle:'코드 생성보다 공개 주소에서 실제로 되는지 확인하는 단계가 중요합니다.'},
+  {icon:'🎬',title:'영상 초벌 자동화',steps:['자료 조사','대본','이미지·영상','TTS','자막·조립','사람이 최종 편집'],tools:['자료 조사 AI','이미지·영상 도구','TTS','Whisper','FFmpeg'],principle:'100% 자동 완성보다 반복되는 기본 틀을 자동화하고 사람이 품질을 마무리합니다.'},
+  {icon:'📚',title:'자료 기반 콘텐츠',steps:['공식 자료 수집','근거 정리','구성안','초안','출처·사실 검수'],tools:['NotebookLM','Deep Research','ChatGPT 또는 Claude'],principle:'커뮤니티 의견과 사실을 구분하고 공식·1차 자료를 우선합니다.'},
+  {icon:'🔁',title:'반복 업무 자동화',steps:['수동으로 한 번 성공','순서 기록','API·MCP 연결','예약 실행','실패 알림·중지'],tools:['Skills','MCP','n8n 또는 Automations','Windows 작업 스케줄러'],principle:'검증되지 않은 작업을 바로 예약하지 않고 먼저 수동으로 성공시킵니다.'}
+]
+
 export const toolPurposes = [
   { id:'all', label:'전체' }, { id:'idea', label:'아이디어 정리' }, { id:'research', label:'자료 조사' },
   { id:'knowledge', label:'문서·지식 관리' }, { id:'prototype', label:'빠른 시제품' },
   { id:'coding', label:'실제 프로그램 개발' }, { id:'connect', label:'외부 서비스 연결' },
-  { id:'automation', label:'반복 작업 자동화' }
+  { id:'automation', label:'반복 작업 자동화' }, { id:'media', label:'이미지·음성·영상' },
+  { id:'local', label:'내 컴퓨터에서 실행' }
 ]
 
 export const aiTools = [
@@ -133,6 +166,14 @@ export const aiTools = [
   {id:'deep-research',provider:'Google',kind:'AI 내부 기능',icon:'🔎',title:'Gemini Deep Research',summary:'검색과 선택한 자료를 바탕으로 조사 계획을 세우고 긴 보고서를 만드는 기능',useWhen:'시장·기술·경쟁 제품처럼 최신 자료를 여러 출처에서 조사할 때',avoidWhen:'빠른 단답이나 이미 제공한 문서만 분석하면 될 때',needs:'조사 질문, 범위, 포함·제외할 출처',outputs:['출처가 포함된 조사 보고서'],tags:['research','idea'],prompt:'[주제]를 [범위]에서 조사해. 계획을 먼저 보여주고 공식·1차 출처를 우선해 비교표와 결론을 작성해.',url:'https://support.google.com/gemini/answer/15719111'},
   {id:'notebooklm',provider:'Google',kind:'지식 도구',icon:'📚',title:'NotebookLM',summary:'업로드한 PDF·웹·영상·문서를 근거로 질문하고 요약·학습 자료를 만드는 도구',useWhen:'내 자료를 벗어나지 않고 인용과 함께 이해·정리하고 싶을 때',avoidWhen:'자유로운 창작이나 로컬 코드 파일을 직접 수정할 때',needs:'신뢰할 수 있는 출처 파일과 질문',outputs:['인용 답변','요약','마인드맵','오디오 개요'],tags:['knowledge','research'],prompt:'선택한 출처만 사용해 [질문]에 답하고, 각 판단의 근거가 되는 출처를 표시해.',url:'https://support.google.com/notebooklm/answer/16164461'},
   {id:'ai-studio',provider:'Google',kind:'개발 플랫폼',icon:'🧪',title:'Google AI Studio',summary:'자연어로 Gemini 기반 웹·Android 앱을 만들고 미리보기·내보내기하는 개발 공간',useWhen:'Gemini API, 이미지·음성 기능이나 Google 서비스 연결 앱을 빠르게 시험할 때',avoidWhen:'AI 기능이 없는 단순 사이트이거나 이미 다른 저장소·배포 흐름이 안정됐을 때',needs:'Google 계정, 앱 아이디어, 사용할 AI 능력과 비용 범위',outputs:['웹 앱','Android 시제품','Gemini API 프로젝트'],tags:['prototype','coding','connect'],prompt:'Build 모드에서 [사용자]가 [행동]하는 앱을 만들어. 필요한 AI 기능과 권한을 먼저 설명하고 라이브 미리보기로 검증해.',url:'https://ai.google.dev/gemini-api/docs/aistudio-build-mode'}
+  ,{id:'codex-cli',provider:'OpenAI',kind:'CLI 개발 에이전트',icon:'⌨️',title:'Codex CLI',summary:'터미널에서 로컬 프로젝트를 읽고 수정·실행하는 Codex 사용 방식',useWhen:'앱보다 빠른 반복 작업, 명령 실행과 로컬 저장소 중심 개발이 필요할 때',avoidWhen:'터미널이 부담스럽고 작은 화면 시안만 확인할 때',needs:'Codex CLI 설치, 프로젝트 폴더, 작업 목표와 권한 범위',outputs:['코드 수정','명령 실행','테스트 결과'],tags:['coding','automation','local'],prompt:'현재 폴더를 먼저 확인하고 이번 기능만 구현해. 실행한 명령과 검증 결과를 구분해 알려줘.',url:'https://developers.openai.com/codex/cli/'},
+  {id:'openai-api',provider:'OpenAI',kind:'개발 연결',icon:'🔗',title:'OpenAI API',summary:'프로그램 안에서 AI의 텍스트·이미지·음성·도구 사용 기능을 호출하는 공식 통로',useWhen:'사용자가 버튼을 누르면 프로그램이 자동으로 AI 기능을 실행해야 할 때',avoidWhen:'ChatGPT 화면에서 사람이 직접 몇 번 실행하는 것으로 충분할 때',needs:'API 계정, 키 보관 방법, 예상 사용량과 비용 한도',outputs:['프로그램 내 AI 기능','자동 반복 호출'],tags:['coding','connect','automation','media'],prompt:'[기능]에 API를 붙이기 전에 예상 호출량, 비용 제한, 키 보관과 실패 처리를 설계해.',url:'https://developers.openai.com/api/'},
+  {id:'n8n',provider:'n8n',kind:'워크플로 자동화',icon:'🔁',title:'n8n',summary:'여러 서비스와 AI 작업을 노드로 연결하는 워크플로 자동화 도구',useWhen:'메일·문서·데이터·AI 호출을 조건과 순서에 따라 반복 연결할 때',avoidWhen:'아직 한 번도 수동으로 성공하지 않은 작업이나 간단한 한 단계 작업',needs:'연결할 서비스 계정, 트리거, 입력·출력과 실패 시 행동',outputs:['자동 워크플로','실행 기록'],tags:['automation','connect'],prompt:'이 작업을 먼저 수동 단계로 정리하고, n8n에서 필요한 트리거·노드·실패 알림을 설계해.',url:'https://docs.n8n.io/'},
+  {id:'comfyui',provider:'ComfyUI',kind:'로컬 생성 도구',icon:'🎨',title:'ComfyUI',summary:'이미지·영상 생성 모델과 처리 단계를 노드로 연결하는 오픈소스 작업 환경',useWhen:'생성 과정을 세밀하게 통제하거나 반복 가능한 이미지·영상 워크플로가 필요할 때',avoidWhen:'컴퓨터 성능과 설치 관리가 부담스럽거나 몇 장만 빠르게 만들 때',needs:'지원 가능한 GPU·저장 공간, 모델, 워크플로와 출력 기준',outputs:['이미지·영상','재사용 워크플로'],tags:['media','local','automation'],prompt:'내 컴퓨터 사양에서 ComfyUI가 현실적인지 판단하고, 가능하면 가장 작은 공식 설치와 첫 이미지 생성까지만 안내해.',url:'https://docs.comfy.org/'},
+  {id:'whisper',provider:'OpenAI',kind:'로컬 음성 도구',icon:'🎙️',title:'Whisper',summary:'음성 파일을 글자로 바꾸고 언어를 인식하는 오픈소스 음성 인식 모델',useWhen:'녹음·영상에서 대본이나 자막 초안을 자동 생성할 때',avoidWhen:'짧은 파일 몇 개를 기존 편집 프로그램에서 바로 처리할 수 있을 때',needs:'Python 환경, FFmpeg, 음성 파일과 사용할 언어',outputs:['음성 전사','자막 초안','언어 인식'],tags:['media','local','automation'],prompt:'Whisper 설치가 필요한지 먼저 판단하고, 필요하면 Python·FFmpeg 의존성과 짧은 음성 파일 검증부터 안내해.',url:'https://github.com/openai/whisper'},
+  {id:'elevenlabs',provider:'ElevenLabs',kind:'음성 서비스',icon:'🗣️',title:'ElevenLabs TTS',summary:'텍스트를 자연스러운 음성으로 변환하고 API로 프로그램에 연결하는 서비스',useWhen:'영상 내레이션·오디오 콘텐츠·다국어 음성 초안이 필요할 때',avoidWhen:'기본 시스템 음성으로 충분하거나 외부에 보낼 수 없는 민감한 대본',needs:'대본, 목소리 사용 권리, 언어, 비용과 출력 형식',outputs:['음성 파일','스트리밍 음성'],tags:['media','automation','connect'],prompt:'이 대본을 TTS로 만들기 전에 목소리 권리, 예상 글자 수와 비용, 출력 형식을 확인해.',url:'https://elevenlabs.io/docs/overview/capabilities/text-to-speech'},
+  {id:'task-scheduler',provider:'Microsoft',kind:'운영체제 자동화',icon:'⏰',title:'Windows 작업 스케줄러',summary:'정해진 시간이나 조건에 프로그램과 스크립트를 자동 실행하는 Windows 기능',useWhen:'이미 안정적으로 동작하는 로컬 작업을 정기 실행할 때',avoidWhen:'작업이 아직 자주 실패하거나 실행 결과를 감시할 방법이 없을 때',needs:'실행할 명령, 시간·조건, 로그 위치와 중지 방법',outputs:['예약 실행','반복 유지 작업'],tags:['automation','local'],prompt:'이 작업을 예약하기 전에 수동 실행을 검증하고 로그·실패 알림·중지 방법을 포함해 설정해.',url:'https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page'},
+  {id:'ffmpeg-tool',provider:'FFmpeg',kind:'미디어 처리 CLI',icon:'🎞️',title:'FFmpeg',summary:'영상·음성·이미지를 변환·결합하고 결과 파일을 만드는 명령줄 도구',useWhen:'자막·음성·이미지 결합, 형식 변환과 영상 초벌 조립이 필요할 때',avoidWhen:'편집 프로그램에서 한두 번 처리하면 충분하거나 결과 파일이 아직 필요 없을 때',needs:'원본 파일, 원하는 형식·비율·해상도와 설치 환경',outputs:['MP4','GIF','오디오','썸네일'],tags:['media','local','automation'],prompt:'FFmpeg로 [결과]를 만들기 전에 입력 형식과 원하는 비율·해상도를 확인하고 짧은 샘플부터 검증해.',url:'https://ffmpeg.org/documentation.html'}
 ]
 
 export const toolRecipes = [
@@ -141,5 +182,8 @@ export const toolRecipes = [
   {title:'자료 기반 프로그램',tools:['NotebookLM','ChatGPT 또는 Claude','Codex'],description:'신뢰할 자료를 먼저 정리한 뒤 그 지식을 활용하는 프로그램을 만듭니다.'},
   {title:'Google 업무 자동화',tools:['Gemini 또는 AI Studio','Gmail·Drive·Sheets 연결'],description:'Google 계정의 업무 데이터를 사용하는 도구를 설계합니다.'},
   {title:'반복 개발 자동화',tools:['AGENTS.md','Skills','MCP·Plugins','Automations'],description:'검증된 규칙과 반복 절차를 다음 작업에서도 자동으로 재사용합니다.'}
+  ,{title:'영상 초벌 자동화',tools:['자료 조사 AI','이미지·영상 생성','ElevenLabs TTS','Whisper','FFmpeg'],description:'대본부터 초벌 영상까지 반복 단계를 자동화하고 사람이 최종 편집합니다.'},
+  {title:'로컬 이미지 워크플로',tools:['ComfyUI','로컬 GPU 또는 클라우드 실행','재사용 워크플로'],description:'설치 부담과 컴퓨터 성능을 먼저 확인한 뒤 반복 가능한 생성 흐름을 만듭니다.'},
+  {title:'예약 업무 자동화',tools:['n8n 또는 Skills','MCP·API','Windows 작업 스케줄러 또는 Automations'],description:'수동으로 검증된 작업만 예약하고 로그·실패 알림·중지 방법을 함께 둡니다.'}
 ]
 
