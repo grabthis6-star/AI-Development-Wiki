@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "build": "node build.mjs"
+    "docs": "node generate-docs.mjs",
+    "check": "node --check app.js && node check.mjs",
+    "build": "node build.mjs",
+    "test": "npm run check && node ui-smoke.mjs && npm run build && node check-dist.mjs"
   }
 }

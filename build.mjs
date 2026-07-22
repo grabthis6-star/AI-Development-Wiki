@@ -1,9 +1,13 @@
-import { mkdir, copyFile } from 'node:fs/promises'
+import { mkdir, copyFile, cp, rm } from 'node:fs/promises'
 
 await import('./generate-docs.mjs')
+await rm('dist', { recursive: true, force: true })
 await mkdir('dist', { recursive: true })
-await copyFile('dashboard-v2.html', 'dist/index.html')
+await copyFile('index.html', 'dist/index.html')
+await copyFile('styles.css', 'dist/styles.css')
+await copyFile('app.js', 'dist/app.js')
 await copyFile('knowledge-data.js', 'dist/knowledge-data.js')
+await cp('data', 'dist/data', { recursive: true })
 await copyFile('GUIDEFLOW_CONTEXT.md', 'dist/GUIDEFLOW_CONTEXT.md')
 await copyFile('TECH_INDEX.md', 'dist/TECH_INDEX.md')
 await copyFile('AI_RULES.md', 'dist/AI_RULES.md')

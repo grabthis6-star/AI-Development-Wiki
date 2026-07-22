@@ -102,3 +102,4 @@ await writeFile('AI_TOOL_MAP.md', toolMarkdown, 'utf8')
 
 console.log('Generated TECH_INDEX.md, AI_RULES.md, CONCEPT_GUIDE.md, AUTOMATION_GUIDE.md, PRACTICAL_GUIDE.md and AI_TOOL_MAP.md from knowledge-data.js')
 
+

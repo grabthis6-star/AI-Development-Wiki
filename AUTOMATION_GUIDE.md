@@ -85,4 +85,3 @@
 
 - 도구: Skills + MCP + n8n 또는 Automations + Windows 작업 스케줄러
 - 원칙: 검증되지 않은 작업을 바로 예약하지 않고 먼저 수동으로 성공시킵니다.
-
