@@ -353,4 +353,3 @@ ComfyUI + 로컬 GPU 또는 클라우드 실행 + 재사용 워크플로
 n8n 또는 Skills + MCP·API + Windows 작업 스케줄러 또는 Automations
 
 수동으로 검증된 작업만 예약하고 로그·실패 알림·중지 방법을 함께 둡니다.
-
