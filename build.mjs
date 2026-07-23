@@ -15,6 +15,6 @@ await copyFile('AI_TOOL_MAP.md', 'dist/AI_TOOL_MAP.md')
 await copyFile('CONCEPT_GUIDE.md', 'dist/CONCEPT_GUIDE.md')
 await copyFile('AUTOMATION_GUIDE.md', 'dist/AUTOMATION_GUIDE.md')
 await copyFile('PRACTICAL_GUIDE.md', 'dist/PRACTICAL_GUIDE.md')
+await copyFile('PROJECT_RECIPES.md', 'dist/PROJECT_RECIPES.md')
 
 console.log('Built GuideFlow knowledge site in dist/')
-

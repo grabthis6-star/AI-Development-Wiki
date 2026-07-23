@@ -1,5 +1,5 @@
 import { writeFile } from 'node:fs/promises'
-import { project, techGroups, techTopics, aiTopics, aiTemplates, conceptTopics, automationLevels, workflowRecipes, practicalGuides, fieldTips, aiTools, toolRecipes } from './knowledge-data.js'
+import { project, techGroups, techTopics, aiTopics, aiTemplates, conceptTopics, automationLevels, workflowRecipes, practicalGuides, fieldTips, aiTools, toolRecipes, projectRecipes } from './knowledge-data.js'
 
 const section = (title, body) => `\n## ${title}\n\n${body}\n`
 
@@ -32,6 +32,8 @@ aiMarkdown += section('핵심 규칙', aiTopics.map((topic) => [
   `### ${topic.icon} ${topic.title}`,
   `- 문제: ${topic.problem}`,
   `- 규칙: ${topic.rule}`,
+  `- 좋지 않은 예시: ${topic.example.bad}`,
+  `- 개선된 예시: ${topic.example.good}`,
   `- AI 요청문:\n\n> ${topic.prompt}`,
 ].join('\n')).join('\n\n'))
 aiMarkdown += section('상황별 요청 양식', aiTemplates.map((template) => [
@@ -100,6 +102,19 @@ for (const provider of [...new Set(aiTools.map((tool) => tool.provider))]) {
 toolMarkdown += section('추천 조합', toolRecipes.map((recipe) => `### ${recipe.title}\n\n${recipe.tools.join(' + ')}\n\n${recipe.description}`).join('\n\n'))
 await writeFile('AI_TOOL_MAP.md', toolMarkdown, 'utf8')
 
-console.log('Generated TECH_INDEX.md, AI_RULES.md, CONCEPT_GUIDE.md, AUTOMATION_GUIDE.md, PRACTICAL_GUIDE.md and AI_TOOL_MAP.md from knowledge-data.js')
+let projectMarkdown = '# 프로젝트 만들기 레시피\n\n아이디어를 사용자 흐름과 확인 가능한 첫 버전으로 바꾸는 예시입니다. 완성 기능을 한 번에 만들지 않고 가장 작은 결과부터 시작합니다.\n'
+projectMarkdown += section('프로젝트 예시', projectRecipes.map((recipe) => [
+  `### ${recipe.icon} ${recipe.title}`,
+  recipe.summary,
+  `- 사용자: ${recipe.audience}`,
+  `- 해결할 문제: ${recipe.problem}`,
+  `- 사용 흐름: ${recipe.flow.join(' → ')}`,
+  `- 첫 버전: ${recipe.mvp.join(' / ')}`,
+  `- 나중에 추가: ${recipe.later.join(' / ')}`,
+  `- 완료 기준: ${recipe.completion}`,
+  `- AI 시작문:\n\n> ${recipe.prompt}`,
+].join('\n')).join('\n\n'))
+await writeFile('PROJECT_RECIPES.md', projectMarkdown, 'utf8')
 
+console.log('Generated knowledge Markdown documents from knowledge-data.js')
 
