@@ -5,4 +5,4 @@ export { conceptTopics } from './data/concepts.js'
 export { automationLevels, workflowRecipes } from './data/automation.js'
 export { practicalGuides, fieldTips } from './data/practical.js'
 export { toolPurposes, aiTools, toolRecipes } from './data/tools.js'
-
+export { projectRecipes } from './data/projects.js'
