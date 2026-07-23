@@ -56,9 +56,9 @@ const routeExpectations = {
   tech: 'AI와 만들기 위한 준비 가이드',
   ai: '실패에서 만든 AI 협업 규칙',
   tools: '만들고 싶은 능력으로 도구 찾기',
-  concepts: '도구 이름을 알아야 AI에게 능력을 요청할 수 있습니다',
+  concepts: 'AI 도구 용어 이해',
   automation: '완전 자동화보다',
-  practical: 'AI가 만들고, 사용자가 준비하고 확인하는 실전 작업법',
+  practical: 'AI 실전 작업법',
 }
 
 for (const [route, expectedText] of Object.entries(routeExpectations)) {
@@ -67,4 +67,13 @@ for (const [route, expectedText] of Object.entries(routeExpectations)) {
   assert.match(app.innerHTML, new RegExp(expectedText))
 }
 
-console.log(`UI smoke passed: home and ${Object.keys(routeExpectations).length} routes rendered.`)
+for (const route of ['ai/1', 'tech/git', 'concept/api', 'practical/repository-handoff', 'tool/codex']) {
+  location.hash = `#${route}`
+  listeners.hashchange()
+  assert.match(app.innerHTML, /class="workspace"/)
+  assert.match(app.innerHTML, /class="workspace-item active"/)
+  assert.match(app.innerHTML, /class="detail detail-panel"/)
+  assert.doesNotMatch(app.innerHTML, /← (협업|준비|용어|실전 운영|도구) 목록/)
+}
+
+console.log(`UI smoke passed: home, ${Object.keys(routeExpectations).length} sections, and master-detail routes rendered.`)
